@@ -1,7 +1,15 @@
-FROM node:20-alpine
+FROM node:22-alpine
+
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
+
 COPY . .
+
+# Încărcăm codul Worker ca modul JavaScript.
+RUN cp src/index.js worker.mjs
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
 EXPOSE 3000
-CMD ["npm", "start"]
+
+CMD ["node", "server.mjs"]
